@@ -15,6 +15,7 @@ import br.com.petland.Resource;
 import br.com.petland.pet.Pet;
 import br.com.petland.pet.PetController;
 import br.com.petland.pet.PetService;
+import br.com.petland.pet.enums.PetGender;
 import br.com.petland.pet.fetchPets.SearchCriteria;
 
 import org.bson.types.ObjectId;
@@ -26,7 +27,7 @@ public class PetControllerTest {
 	@Test
 	public void shouldGetPetFromService() {
 		String id = "5c36b7fa868e67557c764e3a";
-		Pet pet = Pet.builder().id(new ObjectId(id)).name("Luphie").age(12).sex("female").build();
+		Pet pet = Pet.builder().id(new ObjectId(id)).name("Luphie").age(12).gender(PetGender.FEMALE).build();
 		Resource<Pet> expected = Resource.success(pet);
 		
 		PetService service = mock(PetService.class);
@@ -42,7 +43,7 @@ public class PetControllerTest {
 
 	@Test
 	public void shouldCallServiceWhenAddPet() {
-		Pet pet = Pet.builder().name("Luphie").age(12).sex("female").build();
+		Pet pet = Pet.builder().name("Luphie").age(12).gender(PetGender.FEMALE).build();
 		Resource<String> expected = Resource.success("1");
 		
 		PetService service = mock(PetService.class);
@@ -59,7 +60,7 @@ public class PetControllerTest {
 	@Test
 	public void shouldFetchNoPetsWhenThereAreNoneAdded() {
 		List<Pet> noPets = Collections.EMPTY_LIST;
-		Resource<List<Pet>> expected = Resource.notFound(noPets, "No pets found. Please, add some pets first =)");
+		Resource<List<Pet>> expected = Resource.success(noPets);
 		
 		PetService service = mock(PetService.class);
 		Request request = mock(Request.class);

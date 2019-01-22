@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.petland.Resource;
+import br.com.petland.pet.enums.PetGender;
 import br.com.petland.pet.fetchPets.SearchCriteria;
 import lombok.NoArgsConstructor;
 import spark.Request;
@@ -72,8 +73,7 @@ public class PetController {
 
 	public Resource<List<Pet>> fetchPets(Request req, Response res) {
 		SearchCriteria searchCriteria = SearchCriteria.builder().build();
-		List<Pet> petsFound = petService.fetchPets(searchCriteria);
-		return Resource.notFound(Arrays.<Pet>asList(), "No pets found. Please, add some pets first =)");
+		return Resource.success(petService.fetchPets(searchCriteria));
 	}
 
 	private Pet getPetFromRequest(Request req) {
@@ -84,7 +84,7 @@ public class PetController {
 			.age(json.get("age").getAsInt())
 			.creationDate(LocalDate.now())
 			.name(json.get("name").getAsString())
-			.sex(json.get("sex").getAsString())
+			.gender(PetGender.valueOf(json.get("gender").getAsString()))
 			.build();
 	}
 }

@@ -22,6 +22,7 @@ import br.com.petland.PetModuleForTest;
 import br.com.petland.pet.DataRepository;
 import br.com.petland.pet.Pet;
 import br.com.petland.pet.PetService;
+import br.com.petland.pet.enums.PetGender;
 import br.com.petland.pet.fetchPets.SearchCriteria;
 
 import org.bson.types.ObjectId;
@@ -43,7 +44,7 @@ public class PetServiceTest {
 	@Test
 	public void shouldGetPetFromRepository() {
 		String id = "5c36b7fa868e67557c764e3a";
-		Pet expectedPet = Pet.builder().id(new ObjectId(id)).name("luphie").age(2).sex("femea").build();
+		Pet expectedPet = Pet.builder().id(new ObjectId(id)).name("luphie").age(2).gender(PetGender.FEMALE).build();
 		when(repository.getById(id)).thenReturn(expectedPet);
 		
 		assertThat(service.getPet(id), is(expectedPet));
@@ -61,7 +62,7 @@ public class PetServiceTest {
 
 	@Test
 	public void shouldAddPetUsingRepository() {
-		Pet expectedPet = Pet.builder().name("luphie").age(2).sex("femea").build();
+		Pet expectedPet = Pet.builder().name("luphie").age(2).gender(PetGender.FEMALE).build();
 		when(repository.add(expectedPet)).thenReturn("1");
 		
 		assertThat(service.addPet(expectedPet), is("1"));

@@ -5,6 +5,8 @@ import static org.junit.Assert.assertThat;
 
 import java.time.LocalDate;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.*;
@@ -14,18 +16,26 @@ import br.com.petland.FunctionalTestClass;
 import br.com.petland.pet.enums.*;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import xyz.morphia.Key;
 
+// @Ignore
 public class FetchPets extends FunctionalTestClass {
+
+    @Before
+    public void before() {
+        repositoryHelper.clear();
+    }
 
     @Test
     public void shouldReturnNotPetsWhenThereIsNone() {
+
         Response response = given().contentType("application/json").when().get("/pets");
 
         JsonPath jsonPathEvaluator = response.jsonPath();
 
-        assertThat(jsonPathEvaluator.getString("status"), is("not_found"));
-        assertThat(jsonPathEvaluator.getInt("code"), is(404));
-        assertThat(jsonPathEvaluator.getList("messages"), is(asList("No pets found. Please, add some pets first =)")));
+        assertThat(jsonPathEvaluator.getString("status"), is("ok"));
+        assertThat(jsonPathEvaluator.getInt("code"), is(200));
+        assertThat(jsonPathEvaluator.getList("messages"), is(nullValue()));
         assertThat(jsonPathEvaluator.getList("data"), is(asList()));
 
     }
@@ -59,9 +69,9 @@ public class FetchPets extends FunctionalTestClass {
             .creationDate(LocalDate.now())
             .build();
 
-        repositoryHelper.insertPet(biju);
-        repositoryHelper.insertPet(luphie);
-        repositoryHelper.insertPet(xeppy);
+         repositoryHelper.insertPet(biju);
+         repositoryHelper.insertPet(luphie);
+         repositoryHelper.insertPet(xeppy);
 
         Response response = given().contentType("application/json").when().get("/pets");
 
@@ -70,7 +80,7 @@ public class FetchPets extends FunctionalTestClass {
         assertThat(jsonPathEvaluator.getString("status"), is("ok"));
         assertThat(jsonPathEvaluator.getInt("code"), is(200));
         assertThat(jsonPathEvaluator.getList("messages"), is(nullValue()));
-        assertThat(jsonPathEvaluator.getList("data"), is(asList(xeppy, luphie, biju)));
+        assertThat(jsonPathEvaluator.getList("data").size(), is(3));
 
     }
 

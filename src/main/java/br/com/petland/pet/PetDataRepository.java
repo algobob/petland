@@ -59,7 +59,7 @@ public class PetDataRepository implements DataRepository<Pet> {
             query.field("age").equal(Integer.valueOf(searchCriteria.getAge()));
             
         if (StringUtils.isNotBlank(searchCriteria.getSex()))
-            query.field("sex").equalIgnoreCase(searchCriteria.getSex());
+            query.field("gender").equalIgnoreCase(searchCriteria.getSex());
             
         return query;    
     }

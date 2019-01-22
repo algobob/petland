@@ -20,6 +20,8 @@ import br.com.petland.RepositoryHelper;
 import br.com.petland.pet.DataRepository;
 import br.com.petland.pet.Pet;
 import br.com.petland.pet.PetDataRepository;
+import br.com.petland.pet.enums.PetBreed;
+import br.com.petland.pet.enums.PetGender;
 import br.com.petland.pet.fetchPets.SearchCriteria;
 import de.bwaldvogel.mongo.MongoServer;
 import de.bwaldvogel.mongo.backend.memory.MemoryBackend;
@@ -54,7 +56,7 @@ public class PetDataRepositoryIT {
 
 	@Test
 	public void shouldGetPetFromRepository() {
-		Pet pet = Pet.builder().name("Luphie").age(12).sex("female").build();
+		Pet pet = Pet.builder().name("Luphie").age(12).gender(PetGender.FEMALE).build();
 
 		Key<Pet> key = repositoryHelper.insertPet(pet);
 		
@@ -67,7 +69,7 @@ public class PetDataRepositoryIT {
 	@Test
 	public void shouldGetNullWhenPetNotFound() {
 
-		Pet pet = Pet.builder().breed("labrador").name("Luphie").age(12).sex("female").build();
+		Pet pet = Pet.builder().breed(PetBreed.LABRADOR).name("Luphie").age(12).gender(PetGender.FEMALE).build();
 
 		Key<Pet> key = repositoryHelper.insertPet(pet);
 		
@@ -77,7 +79,7 @@ public class PetDataRepositoryIT {
 
 	@Test
 	public void shouldAddPet() {
-		Pet pet = Pet.builder().name("Luphie").age(12).sex("female").build();
+		Pet pet = Pet.builder().name("Luphie").age(12).gender(PetGender.FEMALE).build();
 		String id = repository.add(pet);
 		assertThat(id, is(not(nullValue())));
 	}

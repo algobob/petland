@@ -23,6 +23,7 @@ import br.com.petland.FunctionalTestClass;
 import br.com.petland.PetModuleForTest;
 import br.com.petland.RepositoryHelper;
 import br.com.petland.Resource;
+import br.com.petland.pet.enums.PetGender;
 import de.bwaldvogel.mongo.MongoServer;
 import de.bwaldvogel.mongo.backend.memory.MemoryBackend;
 import io.restassured.RestAssured;
@@ -35,7 +36,7 @@ public class GetPetById extends FunctionalTestClass {
 
     @Test
     public void shouldReturnPetSuccessfully(){
-        Pet expectedPet = Pet.builder().name("Luphie").age(12).sex("female").build();
+        Pet expectedPet = Pet.builder().name("Luphie").age(12).gender(PetGender.FEMALE).build();
         Key<Pet> key = repositoryHelper.insertPet(expectedPet);
         Response response = given().pathParams("id", key.getId().toString()).when().get("/pets/{id}");
 
@@ -59,18 +60,4 @@ public class GetPetById extends FunctionalTestClass {
         assertThat(jsonPathEvaluator.getJsonObject("data"), is(nullValue()));
     }
 
-    @Test
-    public void shouldSomeShitHappened(){
-        server.shutdown();
-        Response response = given().pathParams("id", "516d41150364a6a6697136c0").when().get("/pets/{id}");
-
-        JsonPath jsonPathEvaluator = response.jsonPath();
-
-        assertThat(jsonPathEvaluator.getString("status"), is("error"));
-        assertThat(jsonPathEvaluator.getInt("code"), is(500));
-        assertThat(jsonPathEvaluator.getList("messages"), is(asList("Something crazy hapenned. Help!")));
-        assertThat(jsonPathEvaluator.getJsonObject("data"), is(nullValue()));
-
-        server.bind("localhost", 27017);
-    }
 }

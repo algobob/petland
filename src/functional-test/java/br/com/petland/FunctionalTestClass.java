@@ -2,6 +2,7 @@ package br.com.petland;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.mongodb.MongoClientOptions;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +25,7 @@ public class FunctionalTestClass {
     public static void setup(){
         
         if (!isRunning) {
+            
             server = new MongoServer(new MemoryBackend());
             server.bind("localhost", 27017);
             

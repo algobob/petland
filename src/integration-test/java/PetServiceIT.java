@@ -20,6 +20,7 @@ import br.com.petland.PetModuleForTest;
 import br.com.petland.RepositoryHelper;
 import br.com.petland.pet.Pet;
 import br.com.petland.pet.PetService;
+import br.com.petland.pet.enums.PetGender;
 import br.com.petland.pet.fetchPets.SearchCriteria;
 import de.bwaldvogel.mongo.MongoServer;
 import de.bwaldvogel.mongo.backend.memory.MemoryBackend;
@@ -47,7 +48,7 @@ public class PetServiceIT {
 		
 		repositoryHelper = new RepositoryHelper();
 		id = "5c36b7fa868e67557c764e3a";
-		pet = Pet.builder().id(new ObjectId(id)).name("Luphie").age(12).sex("female").creationDate(LocalDate.now()).build();
+		pet = Pet.builder().id(new ObjectId(id)).name("Luphie").age(12).gender(PetGender.FEMALE).creationDate(LocalDate.now()).build();
 
     }
 

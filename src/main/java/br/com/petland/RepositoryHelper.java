@@ -1,6 +1,7 @@
 package br.com.petland;
 
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
 
 import br.com.petland.pet.Pet;
@@ -21,6 +22,7 @@ public class RepositoryHelper {
         morphia.mapPackage("br.com.petland");
 
         mongoClient = new MongoClient();
+        
         Datastore datastore = morphia.createDatastore(mongoClient, "integration_test");
 		datastore.ensureIndexes();
         this.datastore = datastore;
@@ -38,6 +40,9 @@ public class RepositoryHelper {
         datastore.delete(pet);        
     }
 
+    public void clear() {
+        datastore.delete(datastore.createQuery(Pet.class));        
+    }
     public void shutdown() {
         mongoClient.close();
     }

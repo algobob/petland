@@ -1,11 +1,11 @@
 package br.com.petland.pet.enums;
 
 public enum PetGender {
-    FEMALE('F'), MALE('M');
+    FEMALE("female"), MALE("male");
 
-    private char gender;
+    private String gender;
 
-    PetGender(char gender){
+    PetGender(String gender){
         this.gender = gender;
     }
 }
