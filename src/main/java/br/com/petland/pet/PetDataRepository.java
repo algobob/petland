@@ -47,6 +47,7 @@ public class PetDataRepository implements DataRepository<Pet> {
     }
     
     private Query<Pet> buildFetchQuery(SearchCriteria searchCriteria) {
+        
         Query<Pet> query = datastore.createQuery(Pet.class);
 
         if (StringUtils.isNotBlank(searchCriteria.getName()))
@@ -55,11 +56,11 @@ public class PetDataRepository implements DataRepository<Pet> {
         if (StringUtils.isNotBlank(searchCriteria.getBreed()))
             query.field("breed").equalIgnoreCase(searchCriteria.getBreed());
         
-        if (StringUtils.isNotBlank(searchCriteria.getAge()))
-            query.field("age").equal(Integer.valueOf(searchCriteria.getAge()));
+        // if (StringUtils.isNotBlank(searchCriteria.getAge()))
+        //     query.field("age").equal(Integer.valueOf(searchCriteria.getAge()));
             
-        if (StringUtils.isNotBlank(searchCriteria.getSex()))
-            query.field("gender").equalIgnoreCase(searchCriteria.getSex());
+        // if (StringUtils.isNotBlank(searchCriteria.getSex()))
+        //     query.field("gender").equalIgnoreCase(searchCriteria.getSex());
             
         return query;    
     }

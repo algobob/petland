@@ -72,8 +72,18 @@ public class PetController {
 	}
 
 	public Resource<List<Pet>> fetchPets(Request req, Response res) {
-		SearchCriteria searchCriteria = SearchCriteria.builder().build();
+		String name = req.queryParams("name");
+		String breed = req.queryParams("breed");
+		SearchCriteria searchCriteria = SearchCriteria.builder().name(name).breed(breed).build();
+		logger.info("Fetch Pet search criteria", searchCriteria);
+		
 		return Resource.success(petService.fetchPets(searchCriteria));
+	}
+
+	private String getParamFromRequestBody(Request req, String paramName){
+		JsonParser parser = new JsonParser();
+		JsonObject json = parser.parse(req.body()).getAsJsonObject();
+		return json.get(paramName).getAsString();
 	}
 
 	private Pet getPetFromRequest(Request req) {

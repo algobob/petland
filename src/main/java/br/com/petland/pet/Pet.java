@@ -13,13 +13,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import xyz.morphia.annotations.Entity;
+import xyz.morphia.annotations.Field;
 import xyz.morphia.annotations.Id;
+import xyz.morphia.annotations.Index;
+import xyz.morphia.annotations.Indexes;
+import xyz.morphia.utils.IndexType;
 
 @Data
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Indexes(@Index(fields = @Field(value = "$**", type = IndexType.TEXT)))
 public class Pet {
 	@Id
 	private ObjectId id;
